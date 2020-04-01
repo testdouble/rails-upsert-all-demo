@@ -12,6 +12,7 @@ gem "bootsnap", require: false
 gem "standard"
 
 group :development, :test do
+  gem "dotenv-rails"
 end
 
 group :development do
