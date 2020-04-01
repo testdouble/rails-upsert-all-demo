@@ -17,12 +17,13 @@ ActiveRecord::Schema.define(version: 2020_04_01_023456) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
   create_table "charities", force: :cascade do |t|
-    t.bigint "city_id"
+    t.bigint "city_id", null: false
     t.bigint "category_id"
     t.string "name", null: false
     t.string "ein", null: false
@@ -32,18 +33,21 @@ ActiveRecord::Schema.define(version: 2020_04_01_023456) do
     t.string "org_hunter_url", null: false
     t.string "donation_url", null: false
     t.string "web_site_url", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["category_id"], name: "index_charities_on_category_id"
+    t.index ["city_id", "ein"], name: "index_charities_on_city_id_and_ein", unique: true
     t.index ["city_id"], name: "index_charities_on_city_id"
   end
 
   create_table "cities", force: :cascade do |t|
     t.string "name", null: false
     t.string "state", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["name", "state"], name: "index_cities_on_name_and_state", unique: true
   end
 
+  add_foreign_key "charities", "categories"
+  add_foreign_key "charities", "cities"
 end

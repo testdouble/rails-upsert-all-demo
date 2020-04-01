@@ -1,24 +1,45 @@
-# README
+# Rails 6 upsert_all demo app
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This app demos how to use the `upsert_all` API added in Rails 6 to take
+advantage of the `INSERT… ON CONFLICT`
+[feature](https://www.postgresql.org/docs/9.5/sql-insert.html#SQL-ON-CONFLICT)
+of modern databases to more efficiently batch updates.
 
-Things you may want to cover:
+## Running the example script
 
-* Ruby version
+First, install dependencies and set up the database:
 
-* System dependencies
+```
+$ bundle
+$ bin/rake db:setup
+```
 
-* Configuration
+Next, you'll want to set this environment variable by [creating a free API
+key](https://orghunter.3scale.net/#plans") (if placed in `.env`, it will be
+loaded automatically):
 
-* Database creation
+```
+ORG_HUNTER_API_KEY="123456789"
+```
 
-* Database initialization
+Then run the example script
 
-* How to run the test suite
+```
+$ ./script/download_and_update_charities
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Then, from `psql` or `bin/rails console`, you should be able to inspect the
+results.  To just make sure that some records were persisted, you can run:
 
-* Deployment instructions
+```
+$ bin/rails runner "p Charity.count"
+9025
+```
 
-* ...
+## Points of interest
+
+* The [migration](/db/migrate/20200401023456_add_cities_and_charities.rb) to
+  create all the appropriate tables; note the timestamp defaults and unique
+  indices (both are necessary)
+
+* The actual calls to [upsert_all](/app/lib/upserts_charities.rb)

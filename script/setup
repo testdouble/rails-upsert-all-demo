@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-bin/rake db:create db:migrate db:seed
