@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+#
+
+CITIES = [
+  {name: "Columbus", state: "OH"}
+]
+
+CITIES.each do |attrs|
+  City.find_or_create_by!(attrs)
+end
