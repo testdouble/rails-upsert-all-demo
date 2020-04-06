@@ -19,7 +19,7 @@ key](https://orghunter.3scale.net/#plans") (if placed in `.env`, it will be
 loaded automatically):
 
 ```
-ORG_HUNTER_API_KEY="123456789"
+export ORG_HUNTER_API_KEY="123456789"
 ```
 
 Then run the example script
