@@ -10,6 +10,7 @@ gem "webpacker"
 
 gem "bootsnap", require: false
 gem "standard"
+gem "query_diet", require: false
 
 group :development, :test do
   gem "dotenv-rails"

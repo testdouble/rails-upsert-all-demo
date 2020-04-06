@@ -25,7 +25,7 @@ ORG_HUNTER_API_KEY="123456789"
 Then run the example script
 
 ```
-$ ./script/download_and_update_charities
+$ ./script/compare_update_and_upsert_all
 ```
 
 Then, from `psql` or `bin/rails console`, you should be able to inspect the

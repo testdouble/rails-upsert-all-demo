@@ -1,20 +1,17 @@
 class UpsertsCharities
-  def initialize
-    @downloads_charities = DownloadsCharities.new
-  end
-
-  def call
-    City.all.each do |city|
-      charities = @downloads_charities.call(city)
-      categories = upsert_categories(charities)
-      upsert_charities(city, charities, categories)
-    end
+  def call(city, charities_json)
+    categories = upsert_categories(charities_json)
+    upsert_charities(city, charities_json, categories)
   end
 
   private
 
   def upsert_categories(charities)
-    category_attrs = charities.map { |c| {name: c["category"]} }.uniq
+    time = Time.zone.now
+    category_attrs = charities.map { |c|
+      {name: c["category"], last_fetched_at: time}
+    }.uniq
+    puts "Upserting #{category_attrs.size} categories"
     Category.upsert_all(category_attrs, unique_by: [:name])
     Category.all
   end
@@ -31,9 +28,11 @@ class UpsertsCharities
         accepting_donations: charity["acceptingDonations"] == 1,
         org_hunter_url: charity["url"],
         donation_url: charity["donationUrl"],
-        web_site_url: charity["website"]
+        web_site_url: charity["website"],
+        last_fetched_at: Time.zone.now
       }
     }
+    puts "Upserting #{charity_attrs.size} charities"
 
     Charity.upsert_all(charity_attrs, unique_by: [:city_id, :ein])
   end

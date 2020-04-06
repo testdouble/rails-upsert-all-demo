@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_01_023456) do
+ActiveRecord::Schema.define(version: 2020_04_06_024337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_023456) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "last_fetched_at"
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_023456) do
     t.string "web_site_url", null: false
     t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "last_fetched_at"
     t.index ["category_id"], name: "index_charities_on_category_id"
     t.index ["city_id", "ein"], name: "index_charities_on_city_id_and_ein", unique: true
     t.index ["city_id"], name: "index_charities_on_city_id"
