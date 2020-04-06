@@ -6,9 +6,9 @@ class UpsertsCharities
 
   private
 
-  def upsert_categories(charities)
+  def upsert_categories(charities_json)
     time = Time.zone.now
-    category_attrs = charities.map { |c|
+    category_attrs = charities_json.map { |c|
       {name: c["category"], last_fetched_at: time}
     }.uniq
     puts "Upserting #{category_attrs.size} categories"
@@ -16,8 +16,8 @@ class UpsertsCharities
     Category.all
   end
 
-  def upsert_charities(city, charities, categories)
-    charity_attrs = charities.map { |charity|
+  def upsert_charities(city, charities_json, categories)
+    charity_attrs = charities_json.map { |charity|
       {
         city_id: city.id,
         category_id: categories.find { |c| c.name == charity["category"] }&.id,

@@ -11,14 +11,14 @@ city = City.first
 
 puts "Downloading charities in #{city.name}, #{city.state}"
 charities_json = DownloadsCharities.new.call(city)
-puts "Found #{charities_json.size} charities on orghunter"
+puts "Found #{charities_json.size} charities on orghunter.com"
 
-puts "\n\nRun #1: Inserting charities with upsert_all:"
+puts "\nRun #1: Inserting charities with upsert_all:"
 QueryDiet::Logger.reset
 UpsertsCharities.new.call(city, charities_json)
 puts "Charities and categories upserted in #{QueryDiet::Logger.count} queries #{QueryDiet::Logger.time}ms"
 
-puts "\n\nRun #2: Updating charities with upsert_all:"
+puts "\nRun #2: Updating charities with upsert_all:"
 QueryDiet::Logger.reset
 UpsertsCharities.new.call(city, charities_json)
 puts "Charities and categories upserted in #{QueryDiet::Logger.count} queries #{QueryDiet::Logger.time}ms"
@@ -26,12 +26,12 @@ puts "Charities and categories upserted in #{QueryDiet::Logger.count} queries #{
 Charity.delete_all
 Category.delete_all
 
-puts "\n\nRun #3: Inserting charities by finding and updating each one:"
+puts "\nRun #3: Inserting charities by finding and updating each one:"
 QueryDiet::Logger.reset
 FindsAndUpdatesCharities.new.call(city, charities_json)
 puts "Charities and categories updated in #{QueryDiet::Logger.count} queries #{QueryDiet::Logger.time}ms"
 
-puts "\n\nRun #4: Updating charities by finding and updating each one:"
+puts "\nRun #4: Updating charities by finding and updating each one:"
 QueryDiet::Logger.reset
 FindsAndUpdatesCharities.new.call(city, charities_json)
 puts "Charities and categories updated in #{QueryDiet::Logger.count} queries #{QueryDiet::Logger.time}ms"
